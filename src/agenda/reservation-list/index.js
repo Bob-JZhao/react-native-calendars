@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, ActivityIndicator, View } from "react-native";
+import { SectionList, ActivityIndicator, View } from "react-native";
 import Reservation from "./reservation";
 import Header from "./Header";
 import PropTypes from "prop-types";
@@ -201,14 +201,13 @@ class ReactComp extends Component {
       return <ActivityIndicator style={{ marginTop: 80 }} />;
     }
     return (
-      <FlatList
+      <SectionList
         renderSectionHeader={({ section }) => <Header index={section.index} />}
         ref={c => (this.list = c)}
         style={this.props.style}
         contentContainerStyle={this.styles.content}
         sections={dateutils.toSections(this.state.reservations)}
         renderItem={this.renderRow.bind(this)}
-        data={this.state.reservations}
         onScroll={this.onScroll.bind(this)}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={200}
