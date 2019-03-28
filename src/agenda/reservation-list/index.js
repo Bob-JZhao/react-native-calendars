@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FlatList, ActivityIndicator, View } from "react-native";
 import Reservation from "./reservation";
+import Header from "./Header";
 import PropTypes from "prop-types";
 import XDate from "xdate";
 
@@ -62,7 +63,15 @@ class ReactComp extends Component {
         scrollPosition += this.heights[i] || 0;
       }
       this.scrollOver = false;
-      this.list.scrollToOffset({ offset: scrollPosition, animated: true });
+      //TODO: this is broken, fix it!
+      // this.list.scrollToOffset({ offset: scrollPosition, animated: true });
+      // console.log('this is the getItemCount: ', this.list.getItemCount());
+      // this.list.scrollToLocation({
+      //   sectionIndex: 0,
+      //   itemIndex: 1,
+      //   animated: true,
+      //   viewOffset: 0 // height of section header
+      // });
     }
     this.selectedDay = props.selectedDay;
     this.updateDataSource(reservations.reservations);
@@ -193,9 +202,11 @@ class ReactComp extends Component {
     }
     return (
       <FlatList
+        renderSectionHeader={({ section }) => <Header index={section.index} />}
         ref={c => (this.list = c)}
         style={this.props.style}
         contentContainerStyle={this.styles.content}
+        sections={dateutils.toSections(this.state.reservations)}
         renderItem={this.renderRow.bind(this)}
         data={this.state.reservations}
         onScroll={this.onScroll.bind(this)}
@@ -209,6 +220,10 @@ class ReactComp extends Component {
         refreshControl={this.props.refreshControl}
         refreshing={this.props.refreshing || false}
         onRefresh={this.props.onRefresh}
+        stickySectionHeadersEnabled
+        onScrollToIndexFailed={err =>
+          console.log("onScrollToIndex has failed!!!!!", err)
+        }
         ListFooterComponent={this.props.reservationListFooter}
       />
     );
