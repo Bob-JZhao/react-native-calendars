@@ -1,3 +1,5 @@
+import { groupBy, map, get } from 'lodash';
+
 const XDate = require('xdate');
 
 function sameMonth(a, b) {
@@ -80,6 +82,22 @@ function page(xd, firstDayOfWeek) {
   return before.concat(days.slice(1, days.length - 1), after);
 }
 
+/**
+ *  grouping a list of days by month
+ */
+const toMonthlySections = list =>
+  groupBy(
+    list,
+    day =>
+      `${get(day, 'reservation.month', '')} ${get(day, 'reservation.year', '')}`
+  );
+
+const toSections = list =>
+  map(toMonthlySections(list), (section, i) => ({
+    data: section,
+    index: i
+  }));
+
 module.exports = {
   weekDayNames,
   sameMonth,
@@ -88,5 +106,6 @@ module.exports = {
   page,
   fromTo,
   isLTE,
-  isGTE
+  isGTE,
+  toSections
 };

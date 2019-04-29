@@ -1,8 +1,8 @@
 export default function platformStyles(appStyle) {
   return {
     knob: {
-      width: 38,
-      height: 7,
+      width: 70,
+      height: 9,
       marginTop: 10,
       borderRadius: 3,
       backgroundColor: appStyle.agendaKnobColor
