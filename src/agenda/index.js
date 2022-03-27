@@ -122,7 +122,9 @@ export default class AgendaView extends Component {
   }
 
   setScrollPadPosition(y, animated) {
-    this.scrollPad._component.scrollTo({ x: 0, y, animated });
+    this.scrollPad.scrollTo({x: 0, y, animated});
+  // fixed https://github.com/wix/react-native-calendars/issues/1106#issuecomment-623514363
+   //  this.scrollPad._component.scrollTo({ x: 0, y, animated });
   }
 
   onScrollPadLayout() {
